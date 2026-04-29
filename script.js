@@ -52,12 +52,18 @@ function clearFakes() {
 }
 
 function handleBluff(btn) {
+    console.log('PIEGE!');
     playTone(350, 0.6, 'sawtooth');
-    status.textContent = 'BLUFF! Piège détecté!';
+    status.textContent = 'BLUFF! Piège détecté 😂 Recommence!';
+    gameScreen.classList.add('bluff-shake');
     btn.remove();
     fakeButtons = fakeButtons.filter(b => b !== btn);
-    setTimeout(() => resetGame(), 2000);
+    setTimeout(() => {
+        gameScreen.classList.remove('bluff-shake');
+        resetGame();
+    }, 2500);
 }
+
 
 
 function playTone(frequency, duration = 0.2, type = 'sine') {
@@ -113,13 +119,18 @@ function handleGameClick(e) {
     e.preventDefault();
     e.stopPropagation();
     
+    // Check if clicked on fake button
     const fakeBtn = e.target.closest('.fake-btn');
     if (fakeBtn) {
+        console.log('Piège détecté!');
         handleBluff(fakeBtn);
         return;
     }
     
-    handleReaction(e);
+    // Check if game screen itself was clicked (not troll button)
+    if (e.target === gameScreen || gameScreen.contains(e.target)) {
+        handleReaction(e);
+    }
 }
 function handleReaction(e) {
     e.preventDefault();
