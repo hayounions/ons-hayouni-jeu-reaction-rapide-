@@ -25,30 +25,50 @@ body {
     text-align: center;
     max-width: 90%;
     padding: 20px;
+    text-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
 h1 {
     color: #fff;
     font-size: clamp(2rem, 6vw, 4rem);
     margin-bottom: 20px;
+    text-shadow: 0 0 20px #00ffff;
 }
 
 .game-info p {
     color: #fff;
     font-size: clamp(1.1rem, 4vw, 1.4rem);
     margin: 15px 0;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00ff88;
 }
 
 #start-btn {
+    position: relative;
     background: linear-gradient(45deg, #ff00ff, #00ffff);
     color: #000;
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2rem;
+    padding: clamp(15px, 5vw, 25px) clamp(30px, 10vw, 50px);
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
     font-weight: bold;
     border-radius: 50px;
     cursor: pointer;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 30px rgba(0,255,255,0.5);
     margin: 25px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    z-index: 5;
+}
+
+#start-btn:hover {
+    animation: buttonBounce 0.6s ease;
+    box-shadow: 0 15px 40px rgba(255,0,255,0.7);
+}
+
+@keyframes buttonBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
 }
 
 .game-screen {
@@ -57,26 +77,95 @@ h1 {
     margin: 30px auto;
     border-radius: 25px;
     border: 6px solid #fff;
+    box-shadow: 0 0 40px rgba(0,255,255,0.6);
     cursor: pointer;
     transition: all 0.6s ease;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
+    font-size: clamp(2.5rem, 10vw, 5rem);
     font-weight: bold;
+    color: #000;
+    text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+    position: relative;
+    overflow: hidden;
 }
 
-.instructions {
-    color: white;
-    margin-top: 25px;
+.game-screen.waiting {
+    background: linear-gradient(135deg, #00ff88, #32ff7e);
+    box-shadow: 0 0 50px #00ff88;
+    animation: glow 2s infinite alternate;
+}
+
+.game-screen.ready {
+    background: linear-gradient(135deg, #ffa502, #ff6348);
+    box-shadow: 0 0 50px #ffa502;
+    animation: pulse 1s infinite;
+}
+
+.game-screen.signal {
+    animation: bounceIn 0.6s ease-out;
+    box-shadow: 0 0 60px #ffff00;
+}
+
+.fake-btn {
+    position: absolute;
+    background: linear-gradient(45deg, #ff4757, #ff3838);
+    color: white !important;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255,71,87,0.4);
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.fake-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255,71,87,0.6);
 }
 
 .bluff-shake {
     animation: shake 0.5s ease-in-out;
 }
 
+@keyframes glow {
+    from { box-shadow: 0 0 50px #00ff88; }
+    to { box-shadow: 0 0 70px #00ff88, inset 0 0 30px rgba(255,255,255,0.3); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.9); opacity: 0.7; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
     10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
     20%, 40%, 60%, 80% { transform: translateX(10px); }
+}
+
+.instructions {
+    color: rgba(255,255,255,0.95);
+    font-size: clamp(1rem, 3vw, 1.1rem);
+    margin-top: 25px;
+    line-height: 1.5;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+@media (max-width: 480px) {
+    .container { padding: 15px; }
+    .game-screen { margin: 20px auto; }
+    .fake-btn { padding: 10px 20px; font-size: 1rem; }
 }
