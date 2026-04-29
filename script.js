@@ -14,6 +14,7 @@ function init() {
     
     startBtn.addEventListener('click', startGame);
     gameScreen.addEventListener('click', handleReaction);
+    gameScreen.addEventListener('touchstart', handleReaction, { passive: false });
 }
 
 function startGame() {
@@ -33,7 +34,10 @@ function startGame() {
     }, waitTime);
 }
 
-function handleReaction() {
+function handleReaction(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
     if (gameState !== 'signal') {
         status.textContent = 'Trop tôt! Attendez le signal!';
         setTimeout(() => resetGame(), 1500);
@@ -51,7 +55,6 @@ function handleReaction() {
     status.textContent = 'Temps: ' + reactionTime.toFixed(3) + 's!';
     resetGame();
 }
-
 function resetGame() {
     gameState = 'idle';
     gameScreen.style.background = '';
